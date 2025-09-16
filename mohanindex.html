@@ -1,72 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" <meta name="viewport" <!--Font Awesome CDN-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer"
-    />
-    <title>image slider</title>
-    <link rel="stylesheet" href="mohanstyle.css">
+  <meta charset="UTF-8">
+  <title>Food Order + Admin</title>
+  <style>
+    body { margin:0; font-family:Arial, sans-serif; background:#f8f8f8; }
+    header { display:flex; justify-content:space-between; align-items:center;
+             background:#ff5722; color:white; padding:15px 30px; font-size:20px; font-weight:bold; }
+    header .cart-btn, header .admin-btn { cursor:pointer; }
+    .container { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+                 gap:20px; padding:20px; }
+    .item-box { background:white; padding:15px; border-radius:10px; text-align:center;
+                box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+    .item-box img { max-width:100%; height:120px; object-fit:cover; border-radius:8px; }
+    .item-box h3 { margin:10px 0 5px; font-size:16px; }
+    .item-box p { margin:0 0 10px; color:#444; }
+    .item-box button { background:#ff5722; color:white; border:none; padding:8px 12px;
+                       border-radius:5px; cursor:pointer; }
+    .cart { position:fixed; top:0; right:-350px; width:350px; height:100%; background:white;
+            box-shadow:-2px 0 6px rgba(0,0,0,0.2); padding:20px; transition:right 0.3s; overflow-y:auto; }
+    .cart.active { right:0; }
+    .cart h2 { margin-top:0; }
+    .cart-item { display:flex; justify-content:space-between; align-items:center;
+                 margin:10px 0; border-bottom:1px solid #ddd; padding-bottom:8px; }
+    .cart-item button { background:#ff5722; color:white; border:none; padding:4px 8px;
+                        border-radius:3px; cursor:pointer; }
+    .total { margin:15px 0; font-size:18px; font-weight:bold; }
+    .cart button.place-order { width:100%; padding:10px; font-size:16px; border:none;
+                               background:green; color:white; border-radius:5px; cursor:pointer; }
+    .popup { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);
+             display:none; justify-content:center; align-items:center; }
+    .popup-content { background:white; padding:20px; border-radius:10px; width:300px; text-align:center; }
+    .popup-content input, .popup-content textarea { width:100%; margin:8px 0; padding:8px;
+                                                    border:1px solid #ddd; border-radius:5px; }
+    footer { text-align:center; background:#333; color:white; padding:15px; margin-top:20px; }
+    footer img { width:20px; vertical-align:middle; margin-left:5px; }
+    #admin-page { display:none; padding:20px; }
+    table { width:100%; border-collapse:collapse; margin-top:20px; background:white; }
+    th,td { border:1px solid #ddd; padding:10px; text-align:left; }
+    th { background:#ff5722; color:white; }
+    tr:nth-child(even) { background:#f2f2f2; }
+    .items { font-size:14px; color:#444; }
+  </style>
 </head>
-
 <body>
-    <div class="container">
-
-        <div class="slide">
-
-
-            <div class="item" style="background-image: url(https://ait-tumkur.ac.in/wp-content/uploads/2023/08/WhatsApp-Image-2023-08-14-at-17.23.46ddew.jpg);">
-                <div class="content">
-                    <div class="name">Akshaya clg field</div>
-                    <div class="des">the outdoor area within a college or university campus designated for sports, recreation, and other physical activities</div>
-                    <button>See More</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url(https://www.collegebatch.com/static/clg-gallery/akshaya-institute-of-technology-tumkur-276624.jpg);">
-                <div class="content">
-                    <div class="name">Akshaya institute</div>
-                    <div class="des">Akshaya Polytechnic, located in Tumkur, Karnataka, is a private institution established in 2012</div>
-                    <button>See More</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url(https://www.collegebatch.com/static/clg-gallery/akshaya-institute-of-technology-tumkur-276626.jpg);">
-                <div class="content">
-                    <div class="name">campus</div>
-                    <div class="des">It offers Diploma programs in various engineering disciplines, including Civil Engineering, Electronics & Communication Engineering, and Mechanical Engineering</div>
-                    <button>See More</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url(https://www.collegebatch.com/static/clg-gallery/akshaya-institute-of-technology-tumkur-276622.jpg);">
-                <div class="content">
-                    <div class="name">engineering</div>
-                    <div class="des">It offers Diploma programs in various engineering disciplines, including Civil Engineering, Electronics & Communication Engineering, and Mechanical Engineering</div>
-                    <button>See More</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSR-YwOu7wp5y3P8yIp2KlTWkYn_rbPGvp1gSCjwNN7zAOEc7nr4RtLUGRuYo_HD3uFo&usqp=CAU);">
-                <div class="content">
-                    <div class="name">diploma</div>
-                    <div class="des">It offers Diploma programs in various engineering disciplines, including Civil Engineering, Electronics & Communication Engineering, and Mechanical Engineering</div>
-                    <button>See More</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url(https://image-static.collegedunia.com/public/college_data/images/campusimage/14172389372.jpg);">
-                <div class="content">
-                    <div class="name">nursing</div>
-                    <div class="des">It offers Diploma programs in various engineering disciplines, including Civil Engineering, Electronics & Communication Engineering, and Mechanical Engineering</div>
-                    <button>See More</button>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="button">
-            <button class="prev"><i class="fa-solid fa-arrow-left"></i></button>
-            <button class="next"><i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-
+  <header>
+    <div>Food Order</div>
+    <div>
+      <span class="cart-btn">🛒 Cart</span> | 
+      <span class="admin-btn">🔑 Admin</span>
     </div>
-    <script src="mohanapp.js"></script>
+  </header>
 
+  <!-- Customer Page -->
+  <div id="customer-page">
+    <h2 style="padding:20px;">Veg Items</h2>
+    <div class="container">
+      <div class="item-box"><img src="veg1.jpg"><h3>Paneer Curry</h3><p>₹150</p><button onclick="addToCart('Paneer Curry',150)">Add to Cart</button></div>
+      <div class="item-box"><img src="veg2.jpg"><h3>Veg Pulao</h3><p>₹120</p><button onclick="addToCart('Veg Pulao',120)">Add to Cart</button></div>
+      <div class="item-box"><img src="veg3.jpg"><h3>Aloo Gobi</h3><p>₹100</p><button onclick="addToCart('Aloo Gobi',100)">Add to Cart</button></div>
+      <div class="item-box"><img src="veg4.jpg"><h3>Dal Tadka</h3><p>₹90</p><button onclick="addToCart('Dal Tadka',90)">Add to Cart</button></div>
+      <div class="item-box"><img src="veg5.jpg"><h3>Palak Paneer</h3><p>₹160</p><button onclick="addToCart('Palak Paneer',160)">Add to Cart</button></div>
+      <div class="item-box"><img src="veg6.jpg"><h3>Veg Thali</h3><p>₹200</p><button onclick="addToCart('Veg Thali',200)">Add to Cart</button></div>
+      <div class="item-box"><img src="veg7.jpg"><h3>Matar Paneer</h3><p>₹150</p><button onclick="addToCart('Matar Paneer',150)">Add to Cart</button></div>
+      <div class="item-box"><img src="veg8.jpg"><h3>Bhindi Masala</h3><p>₹110</p><button onclick="addToCart('Bhindi Masala',110)">Add to Cart</button></div>
+      <div class="item-box"><img src="veg9.jpg"><h3>Chole Bhature</h3><p>₹130</p><button onclick="addToCart('Chole Bhature',130)">Add to Cart</button></div>
+      <div class="item-box"><img src="veg10.jpg"><h3>Mix Veg Curry</h3><p>₹140</p><button onclick="addToCart('Mix Veg Curry',140)">Add to Cart</button></div>
+    </div>
+
+    <h2 style="padding:20px;">Non-Veg Items</h2>
+    <div class="container">
+      <div class="item-box"><img src="nv1.jpg"><h3>Chicken Biryani</h3><p>₹250</p><button onclick="addToCart('Chicken Biryani',250)">Add to Cart</button></div>
+      <div class="item-box"><img src="nv2.jpg"><h3>Mutton Curry</h3><p>₹300</p><button onclick="addToCart('Mutton Curry',300)">Add to Cart</button></div>
+      <div class="item-box"><img src="nv3.jpg"><h3>Fish Fry</h3><p>₹220</p><button onclick="addToCart('Fish Fry',220)">Add to Cart</button></div>
+      <div class="item-box"><img src="nv4.jpg"><h3>Egg Curry</h3><p>₹120</p><button onclick="addToCart('Egg Curry',120)">Add to Cart</button></div>
+      <div class="item-box"><img src="nv5.jpg"><h3>Prawns Masala</h3><p>₹280</p><button onclick="addToCart('Prawns Masala',280)">Add to Cart</button></div>
+      <div class="item-box"><img src="nv6.jpg"><h3>Chicken Tikka</h3><p>₹260</p><button onclick="addToCart('Chicken Tikka',260)">Add to Cart</button></div>
+      <div class="item-box"><img src="nv7.jpg"><h3>Grilled Fish</h3><p>₹240</p><button onclick="addToCart('Grilled Fish',240)">Add to Cart</button></div>
+      <div class="item-box"><img src="nv8.jpg"><h3>Butter Chicken</h3><p>₹280</p><button onclick="addToCart('Butter Chicken',280)">Add to Cart</button></div>
+      <div class="item-box"><img src="nv9.jpg"><h3>Kebab Platter</h3><p>₹350</p><button onclick="addToCart('Kebab Platter',350)">Add to Cart</button></div>
+      <div class="item-box"><img src="nv10.jpg"><h3>Chicken Curry</h3><p>₹200</p><button onclick="addToCart('Chicken Curry',200)">Add to Cart</button></div>
+    </div>
+
+    <h2 style="padding:20px;">Snacks</h2>
+    <div class="container">
+      <div class="item-box"><img src="sn1.jpg"><h3>Samosa</h3><p>₹40</p><button onclick="addToCart('Samosa',40)">Add to Cart</button></div>
+      <div class="item-box"><img src="sn2.jpg"><h3>Pav Bhaji</h3><p>₹80</p><button onclick="addToCart('Pav Bhaji',80)">Add to Cart</button></div>
+      <div class="item-box"><img src="sn3.jpg"><h3>Bhel Puri</h3><p>₹50</p><button onclick="addToCart('Bhel Puri',50)">Add to Cart</button></div>
+      <div class="item-box"><img src="sn4.jpg"><h3>Vada Pav</h3><p>₹30</p><button onclick="addToCart('Vada Pav',30)">Add to Cart</button></div>
+      <div class="item-box"><img src="sn5.jpg"><h3>French Fries</h3><p>₹70</p><button onclick="addToCart('French Fries',70)">Add to Cart</button></div>
+      <div class="item-box"><img src="sn6.jpg"><h3>Spring Roll</h3><p>₹90</p><button onclick="addToCart('Spring Roll',90)">Add to Cart</button></div>
+      <div class="item-box"><img src="sn7.jpg"><h3>Cutlet</h3><p>₹60</p><button onclick="addToCart('Cutlet',60)">Add to Cart</button></div>
+      <div class="item-box"><img src="sn8.jpg"><h3>Burger</h3><p>₹120</p><button onclick="addToCart('Burger',120)">Add to Cart</button></div>
+      <div class="item-box"><img src="sn9.jpg"><h3>Pizza Slice</h3><p>₹150</p><button onclick="addToCart('Pizza Slice',150)">Add to Cart</button></div>
+      <div class="item-box"><img src="sn10.jpg"><h3>Pakora</h3><p>₹50</p><button onclick="addToCart('Pakora',50)">Add to Cart</button></div>
+    </div>
+  </div>
+
+  <!-- Admin Page -->
+  <div id="admin-page">
+    <h1>All Orders</h1>
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Email</th><th>Address</th><th>Items</th><th>Total</th><th>Date</th></tr>
+      </thead>
+      <tbody id="orders-table"></tbody>
+    </table>
+  </div>
+
+  <!-- Cart -->
+  <div class="cart" id="cart">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <div class="total">Total: ₹<span id="total">0</span></div>
+    <button class="place-order" onclick="openOrderForm()">Place Order</button>
+  </div>
+
+  <!-- Order Form Popup -->
+  <div class="popup" id="order-form">
+    <div class="popup-content">
+      <h3>Enter Details</h3>
+      <input type="text" id="name" placeholder="Name">
+      <input type="email" id="email" placeholder="Email">
+      <textarea id="address" placeholder="Address"></textarea>
+      <p>Total: ₹<span id="popup-total">0</span></p>
+      <button onclick="confirmOrder()">Confirm</button>
+    </div>
+  </div>
+
+  <!-- Success Popup -->
+  <div class="popup" id="success-popup">
+    <div class="popup-content">
+      <h3>Order Successful 🎉</h3>
+      <p id="order-summary"></p>
+      <button onclick="closePopup('success-popup')">OK</button>
+    </div>
+  </div>
+
+  <footer>
+    Contact: +91 9876543210 
+    <img src="whatsapp.png" alt="WhatsApp"> 
+    ©2025
+  </footer>
+
+  <script>
+    const cart = {};
+    const cartEl = document.getElementById('cart');
+    const cartItemsEl = document.getElementById('cart-items');
+    const totalEl = document.getElementById('total');
+    const popupTotalEl = document.getElementById('popup-total');
+    const ADMIN_PASSWORD = "12345"; // change password here
+
+    document.querySelector('.cart-btn').addEventListener('click', () => {
+      cartEl.classList.toggle('active');
+    });
+
+    document.querySelector('.admin-btn').addEventListener('click', () => {
+      let pass = prompt("Enter Admin Password:");
+      if (pass === ADMIN_PASSWORD) {
+        document.getElementById("customer-page").style.display = "none";
+        document.getElementById("cart").classList.remove("active");
+        document.getElementById("admin-page").style.display = "block";
+        loadOrders();
+      } else {
+        alert("Wrong password!");
+      }
+    });
+
+    function addToCart(name, price) {
+      if (!cart[name]) cart[name] = { price, qty: 1 };
+      else cart[name].qty++;
+      renderCart();
+    }
+
+    function updateQty(name, delta) {
+      cart[name].qty += delta;
+      if (cart[name].qty <= 0) delete cart[name];
+      renderCart();
+    }
+
+    function renderCart() {
+      cartItemsEl.innerHTML = '';
+      let total = 0;
+      for (let name in cart) {
+        let item = cart[name];
+        total += item.price * item.qty;
+        cartItemsEl.innerHTML += `
+          <div class="cart-item">
+            <span>${name} (₹${item.price})</span>
+            <div>
+              <button onclick="updateQty('${name}',-1)">-</button>
+              <span>${item.qty}</span>
+              <button onclick="updateQty('${name}',1)">+</button>
+            </div>
+          </div>`;
+      }
+      totalEl.textContent = total;
+      popupTotalEl.textContent = total;
+    }
+
+    function openOrderForm() {
+      if (Object.keys(cart).length === 0) return alert("Cart is empty!");
+      document.getElementById('order-form').style.display = 'flex';
+    }
+
+    function confirmOrder() {
+      let name = document.getElementById('name').value;
+      let email = document.getElementById('email').value;
+      let address = document.getElementById('address').value;
+      let total = totalEl.textContent;
+      if (!name || !email || !address) return alert("Fill all details!");
+
+      let order = { name,email,address,items:{...cart},total,
+                    date:new Date().toLocaleString() };
+      let orders = JSON.parse(localStorage.getItem("orders")) || [];
+      orders.push(order);
+      localStorage.setItem("orders", JSON.stringify(orders));
+
+      document.getElementById('order-form').style.display = 'none';
+      document.getElementById('success-popup').style.display = 'flex';
+      document.getElementById('order-summary').innerHTML = `
+        <b>Name:</b> ${name}<br><b>Email:</b> ${email}<br>
+        <b>Address:</b> ${address}<br><b>Total:</b> ₹${total}`;
+
+      for (let key in cart) delete cart[key];
+      renderCart();
+    }
+
+    function closePopup(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    function loadOrders() {
+      let orders = JSON.parse(localStorage.getItem("orders")) || [];
+      let table = document.getElementById("orders-table");
+      table.innerHTML = "";
+      if (orders.length === 0) {
+        table.innerHTML = `<tr><td colspan="6">No orders yet</td></tr>`;
+      } else {
+        orders.forEach(order => {
+          let itemsList = "";
+          for (let item in order.items) {
+            itemsList += `${item} (x${order.items[item].qty})<br>`;
+          }
+          table.innerHTML += `
+            <tr>
+              <td>${order.name}</td>
+              <td>${order.email}</td>
+              <td>${order.address}</td>
+              <td class="items">${itemsList}</td>
+              <td>₹${order.total}</td>
+              <td>${order.date}</td>
+            </tr>`;
+        });
+      }
+    }
+  </script>
 </body>
+                                                                                 </html>
